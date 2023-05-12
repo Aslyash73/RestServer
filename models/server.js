@@ -6,8 +6,9 @@ class Server {
 
     constructor() {
         this.app = express();
-        this.port = process.env.PORT || 3000;
-        this.usuarios = '/api/usuarios';
+        this.port = process.env.PORT;
+        this.usuariosPath = '/api/usuarios';
+        this.authPath = '/api/auth';
 
         //Conectar a base de datos
         this.conectarDB();
@@ -36,7 +37,8 @@ class Server {
     //rutas
     routes() {
         //el get es para solicitar
-        this.app.use('/api/usuarios', require('../routes/usuarios'))
+        this.app.use(this.authPath, require('../routes/auth'));
+        this.app.use(this.usuariosPath, require('../routes/usuarios'));
     }
     //donde lo llama
     listen() {
